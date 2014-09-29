@@ -1,0 +1,17 @@
+{
+    "contents" : "",
+    "created" : 1411974648082.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "C5FC7C2F",
+    "lastKnownWriteTime" : 1411974663,
+    "path" : "~/RSSI_LOG_ANALYSIS/rssi_log_script.R",
+    "project_path" : "rssi_log_script.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
