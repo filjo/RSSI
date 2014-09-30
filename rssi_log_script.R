@@ -1,7 +1,7 @@
-# require(ggplot2)
-# require(reshape2)
-# require(stringr)
-# require(gridExtra)
+require(ggplot2)
+require(reshape2)
+require(stringr)
+require(gridExtra)
 
 # Vmetnuvanje na Log file od Dejan
 
@@ -31,12 +31,25 @@ A_1m <- mean(power_1m$power_1m,na.rm = TRUE)
 A_2m <- mean(power_2m$power_2m,na.rm = TRUE)
 A <- (A_1m + A_2m) / 2
 # head(power_1m)
-# class(power_1m$power_1m)
-g <- ggplot(data = power_1m,aes(y = power_1m,x = 1:length(power_1m))) + geom_point(fill = "red") + 
-  labs( x = "Number of observations (1 metter distance)", y = "RSSI(dbm)",title = "Received RSSI signals")
+#class(power_1m$power_1m)
+
+# Creating plots and geom_smooth(method="lm") , creating linear regression models
+
+g <- ggplot(data = power_1m,aes(y = power_1m,x = 1:length(power_1m))) + geom_point(fill = "red") + geom_smooth(method="lm",color = "red") +
+  labs( x = "Number of observations (1 metter distance)", y = "RSSI(dbm)",title = "Received RSSI signals") 
 g
-g1 <- ggplot(data = power_2m,aes(y = power_2m,x = 1:length(power_2m))) + geom_point() +
+g1 <- ggplot(data = power_2m,aes(y = power_2m,x = 1:length(power_2m))) + geom_point() + geom_smooth(method="lm",color = "red") +
     labs( x = "Number of observations (2 metter distance)", y = "RSSI(dbm)", title = "Received RSSI signals")
+
+####################        Linear regression                           #############################
+x1 <-  1:length(power_1m$power_1)
+x2 <-  1:length(power_2m$power_2)
+
+reg_1m <- lm(data = power_1m, power_1m ~ x1)
+reg_2m <- lm(data = power_2m, power_2m ~ x2)
+
+rez <- list(Distance_1m = reg_1m,Distance_2m = reg_2m)
+########################################################################################################
 
 power_1m$power_1m <- as.factor(as.character(power_1m$power_1m)) # Vrakjanje vo factor za podobar 
 power_2m$power_2m <- as.factor(as.character(power_2m$power_2m)) # prikaz na x -oska             
@@ -49,4 +62,8 @@ hist_2m <- ggplot(data = power_2m,aes(x = power_2m)) + geom_histogram(colour = "
 
 grid.arrange(g, g1, hist_1m, hist_2m, nrow = 2,ncol = 2, main=textGrob("RSSI ANALYSIS", gp=gpar(cex=1.2, fontface="bold", col="blue")))
 
-cat(sprintf(" Mean for 1m distance is %s. \n Mean for 2m distance is %s. \n Overal mean is %s. \n ",A_1m,A_2m,A)) # Printanje na srednata vrednost
+cat(sprintf(" \n Mean for 1m distance is %s. \n Mean for 2m distance is %s. \n Overal mean is %s. \n ",A_1m,A_2m,A)) # Printanje na srednata vrednost
+
+################# Print reggresion rezults ###########################
+
+print(rez)
