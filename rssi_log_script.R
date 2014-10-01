@@ -1,16 +1,14 @@
-# require(ggplot2)
-# require(reshape2)
-# require(stringr)
-# require(gridExtra)
+require(ggplot2)
+require(reshape2)
+require(stringr)
+require(gridExtra)
 
 # Vmetnuvanje na Log file od Dejan
 
 rssi1 <- read.table(file = "rssi1m.txt",fill = TRUE,stringsAsFactors=FALSE)
 rssi2 <- read.table(file = "rssi2m.txt",fill = TRUE,stringsAsFactors=FALSE)
 
- head(rssi1)
 # head(rssi2)
-# str(rssi2)
 # head(rssi1)
 
 l <- rssi1[str_detect(rssi1$V12,pattern = "power:-\\d{1,3}"), ]
@@ -18,6 +16,7 @@ l1 <- rssi2[str_detect(rssi2$V12,pattern = "power:-\\d{1,3}"), ]
 
 power_1m <- str_extract(string = l$V12 ,pattern = "-\\d{1,3}" )
 power_2m <- str_extract(string = l1$V12 ,pattern = "-\\d{1,3}" )
+
 # length(power_1m)
 # head(power_1m)
 
@@ -29,8 +28,9 @@ power_2m$power_2m <- as.numeric(as.character(power_2m$power_2m))
 A_1m <- mean(power_1m$power_1m,na.rm = TRUE)
 A_2m <- mean(power_2m$power_2m,na.rm = TRUE)
 A <- (A_1m + A_2m) / 2
+
 # head(power_1m)
-#class(power_1m$power_1m)
+# class(power_1m$power_1m)
 
 # Creating plots and geom_smooth(method="lm") , creating linear regression models
 
